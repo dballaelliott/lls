@@ -38,10 +38,8 @@ pacman::p_load(data.table, fixest, ggplot2, dplyr, collapse, ggthemes)
 # use theme_hc as the default theme
 theme_set(theme_hc())
 
-# Load the lls package functions locally for this demo
-# In practice, you can install from GitHub: 
+# install from GitHub:
 # devtools::install_github("dballaelliott/lls")
-devtools::install('~/documents/research/lls') 
 library(lls)
 
 # lls()
