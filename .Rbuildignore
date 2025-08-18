@@ -1,2 +1,16 @@
 ^LLS\.Rproj$
 ^\.Rproj\.user$
+^\.github$
+^README\.Rmd$
+^vignettes/articles$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^doc$
+^Meta$
+^\.claude$
+^docs$
+^_pkgdown\.yml$
+^\.github$
+^vignettes/.+_cache/$
+^vignettes/.+_files/$

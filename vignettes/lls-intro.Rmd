@@ -1,0 +1,59 @@
+---
+title: "Quick Start"
+author: "Dylan Balla-Elliott"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Quick Start}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7, fig.height = 4.5, 
+  cache = FALSE
+)
+```
+
+
+**If you're reading this, you've found the pre-release version of this package. Use at your own risk, and please check this repo frequently for updates. Please open an issue if you find a bug!**
+
+
+This R package implements the estimator proposed in [*Identifying Causal Effects in Information Provision Experiments*](https://pdfs.dballaelliott.com/info_iv.pdf). 
+
+The package handles the multi-step estimation process, including bootstrap inference. It also provides a simple wrapper to visualize the CAPE curve, like in the paper. There are lots of options to customize estimation (and you should experiment with them), but the package also provides sensible defaults to get you started quickly.
+
+# A Simple Example with Simulated Data
+
+
+
+The `lls` package comes with a simulated dataset `info.sim` to highlight how the 
+syntax works and to make some example plots. 
+
+```{r}
+# Load the package
+library(lls)
+library(data.table)
+
+# Load packaged simulated data
+data(info.sim)
+setDT(info.sim)  # ensure data.table
+
+info.sim[, alpha_est := (posterior - prior) / (signal - prior)]
+
+# Estimate using IV mode
+est <- iv.lls(info.sim, y = "Y", x = "posterior", r = "alpha_est",
+    bandwidth = 0.05, control.fml = "prior",
+    bootstrap = TRUE, bootstrap.n = 100)
+
+# Print summary
+print(est)
+```
+
+There is a plot function for `lls` objects. It returns a `ggplot` object, so you can customize it further with standard `ggplot2` functions.
+
+```{r}
+plot(est)
+```

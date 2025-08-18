@@ -4,3 +4,20 @@
 .httr-oauth
 .DS_Store
 .quarto
+inst/doc
+docs
+/doc/
+/Meta/
+todolist.md
+
+lls.Rcheck/*
+
+# CI builds the site; keep local docs/ untracked
+docs/
+
+# knitr caches & vignette artifacts
+**/*_cache/
+**/*_files/
+
+
+*.tar.gz
