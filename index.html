@@ -15,12 +15,12 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Local Least Squares Estimation for Information Provision Experiments">
 <meta name="description" content="Implements the Local Least Squares (LLS) estimator for identifying causal effects in information provision experiments. The LLS estimator consistently estimates Average Partial Effects (APE) even when there is strong dependence between belief updating and belief effects. Includes plotting functions for visualizing results with binned estimates and confidence intervals.">
 <meta property="og:description" content="Implements the Local Least Squares (LLS) estimator for identifying causal effects in information provision experiments. The LLS estimator consistently estimates Average Partial Effects (APE) even when there is strong dependence between belief updating and belief effects. Includes plotting functions for visualizing results with binned estimates and confidence intervals.">
-<!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=%7BYOUR%20TRACKING%20ID%7D"></script><script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-LWVQZ3G5BL"></script><script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
 
-  gtag('config', '{YOUR TRACKING ID}');
+gtag('config', 'G-LWVQZ3G5BL');
 </script>
 </head>
 <body>
@@ -64,25 +64,36 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="lls-local-least-squares-for-information-provision-experiments">lls: Local Least Squares for Information Provision Experiments<a class="anchor" aria-label="anchor" href="#lls-local-least-squares-for-information-provision-experiments"></a>
 </h1></div>
-<p><strong>If you’re reading this, you’ve found the pre-release version of this package. Use at your own risk, and please check this repo frequently for updates. Please open an issue if you find a bug!</strong></p>
+<p><strong>If you’re reading this, you’ve found the pre-release version of this package. Please check this repo frequently for updates. Please open an issue if you find a bug!</strong></p>
 <!-- badges: start -->
 
 <p>This R package implements the Local Least Squares (LLS) estimator for identifying causal effects in information provision experiments. The LLS estimator consistently estimates Average Partial Effects (APE) even when there is strong dependence between belief updating and belief effects.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the most recent version of <code>lls</code> from GitHub with:</p>
+<div class="section level3">
+<h3 id="pre-release">PRE-RELEASE<a class="anchor" aria-label="anchor" href="#pre-release"></a>
+</h3>
+<p>You can directly install <code>lls</code> from the source code (i.e. the contents of this repo). To do so, save the <code>lls</code> folder somewhere on your computer and then you can install from the source with <code>install.packages</code>.</p>
+<p>The instructions to install from <code>lls_&lt;version&gt;.tar.gz</code> are identical.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># if installing from the source **folder**</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"path/to/lls"</span>, repos <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">'source'</span><span class="op">)</span></span>
+<span><span class="co"># or more simply from the .tar.gz</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"path/to/lls_&lt;version&gt;.tar.gz"</span><span class="op">)</span></span></code></pre></div>
+<p>When the package is live, you can install the most recent version of <code>lls</code> from GitHub with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dballaelliott/lls"</span><span class="op">)</span></span>
 <span><span class="co"># build_vignettes = TRUE gives you some local examples with </span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dballaelliott/lls"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co"># now you have vignette('lls-intro')</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dballaelliott.github.io/lls/">lls</a></span><span class="op">)</span></span></code></pre></div>
 </div>
+</div>
 <div class="section level2">
 <h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Basic usage - Active/Passive Control</span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lls.html">iv.lls</a></span><span class="op">(</span></span>
 <span>  dat <span class="op">=</span> <span class="va">your_data</span>,</span>
@@ -107,7 +118,7 @@
 <h2 id="a-simple-example-with-simulated-data">A Simple Example with Simulated Data<a class="anchor" aria-label="anchor" href="#a-simple-example-with-simulated-data"></a>
 </h2>
 <p>The <code>lls</code> package comes with a simulated dataset <code>info.sim</code> to highlight how the syntax works and to make some example plots.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the package</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dballaelliott.github.io/lls/">lls</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
@@ -131,12 +142,12 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Average Partial Effect (APE):</span></span>
 <span><span class="co">#&gt;   Estimate:   0.9454</span></span>
-<span><span class="co">#&gt;   Std. Err:   0.1166</span></span>
-<span><span class="co">#&gt;   t-value:    8.1096</span></span>
+<span><span class="co">#&gt;   Std. Err:   0.0878</span></span>
+<span><span class="co">#&gt;   t-value:   10.7631</span></span>
 <span><span class="co">#&gt;   p-value:   &lt;0.001</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Normal CI (95%): [ 0.7169,  1.1739]</span></span>
-<span><span class="co">#&gt; Percentile CI (95%): [ 0.7435,  1.1968]</span></span>
+<span><span class="co">#&gt; Normal CI (95%): [ 0.7733,  1.1176]</span></span>
+<span><span class="co">#&gt; Percentile CI (95%): [ 0.7574,  1.0951]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Estimation Details:</span></span>
 <span><span class="co">#&gt;   Bandwidth:   0.0500</span></span>
@@ -144,9 +155,14 @@
 <span><span class="co">#&gt;   Observations: 500</span></span>
 <span><span class="co">#&gt;   Support points: 500</span></span></code></pre></div>
 <p>There is a plot function for <code>lls</code> objects. It returns a <code>ggplot</code> object, so you can customize it further with standard <code>ggplot2</code> functions.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">est</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">est</span><span class="op">)</span> <span class="op">+</span> </span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Heterogeneous Effects of Beliefs by Update Size"</span>,</span>
+<span>     x <span class="op">=</span> <span class="st">"Change in Beliefs"</span>,</span>
+<span>     y <span class="op">=</span> <span class="st">""</span>,</span>
+<span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>

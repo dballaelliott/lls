@@ -13,12 +13,12 @@
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="User's Guide">
-<!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=%7BYOUR%20TRACKING%20ID%7D"></script><script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-LWVQZ3G5BL"></script><script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
 
-  gtag('config', '{YOUR TRACKING ID}');
+gtag('config', 'G-LWVQZ3G5BL');
 </script>
 </head>
 <body>
@@ -163,7 +163,7 @@ is simple:</p>
 <span><span class="co"># Visualize how effects vary with belief updating</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">panel_lls</span><span class="op">)</span> <span class="op">+</span> </span>
 <span><span class="co"># plot returns a ggplot object, so we can customize it</span></span>
-<span><span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Panel Design: Effects by Belief Update Size"</span>,</span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Panel Design: Effects by Belief Update Size"</span>,</span>
 <span>     x <span class="op">=</span> <span class="st">"Change in Beliefs"</span>,</span>
 <span>     y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
@@ -176,7 +176,7 @@ size of belief updates regardless of direction. We can do that with the
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Visualize how effects vary with belief updating</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">panel_lls</span>, abs.x<span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> </span>
-<span><span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Panel Design: Effects by Belief Update Size"</span>,</span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Panel Design: Effects by Belief Update Size"</span>,</span>
 <span>     x <span class="op">=</span> <span class="st">"Change in Beliefs (Absolute Value)"</span>,</span>
 <span>     y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
@@ -263,7 +263,7 @@ condition on the variable we pass to <code>r</code>.</p>
 <span></span>
 <span><span class="co"># Plot conditional effects by learning rate</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">active_lls</span><span class="op">)</span> <span class="op">+</span> </span>
-<span><span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Active Control: Effects by Learning Rate"</span>,</span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Active Control: Effects by Learning Rate"</span>,</span>
 <span>     x <span class="op">=</span> <span class="st">"Learning Rate Percentile"</span>,</span>
 <span>     y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
@@ -275,7 +275,7 @@ bootstrapping.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot conditional effects by learning rate</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">active_lls</span>, nbins <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="op">+</span> </span>
-<span><span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Active Control: Effects by Learning Rate"</span>,</span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Active Control: Effects by Learning Rate"</span>,</span>
 <span>     x <span class="op">=</span> <span class="st">"Learning Rate Percentile"</span>,</span>
 <span>     y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
@@ -323,7 +323,7 @@ designs.</p>
 <span><span class="va">dt_passive</span><span class="op">[</span>, <span class="va">Y_passive</span> <span class="op">:=</span> <span class="va">tau</span> <span class="op">*</span> <span class="va">posterior</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Case 1: Use prior precision to infer learning rates</span></span>
-<span><span class="va">dt_passive</span><span class="op">[</span>, <span class="va">prior_precision</span> <span class="op">:=</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="va">tau</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span>  <span class="co"># Higher tau → more precise priors</span></span>
+<span><span class="va">dt_passive</span><span class="op">[</span>, <span class="va">prior_precision</span> <span class="op">:=</span> <span class="va">sigma2</span><span class="op">]</span>  <span class="co"># Higher tau → more precise priors</span></span>
 <span></span>
 <span><span class="co"># Passive LLS (Case 1: observed prior variance)</span></span>
 <span><span class="va">passive_lls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lls.html">iv.lls</a></span><span class="op">(</span></span>
@@ -338,7 +338,7 @@ designs.</p>
 <span></span>
 <span><span class="co"># Plot conditional effects by learning rate</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">passive_lls</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Passive Control: Effects by (Implied) Learning Rate"</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Passive Control: Effects by (Implied) Learning Rate"</span>,</span>
 <span>     x <span class="op">=</span> <span class="st">"Learning Rate Percentile"</span>,</span>
 <span>     y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
