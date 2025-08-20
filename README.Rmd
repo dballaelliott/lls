@@ -105,7 +105,12 @@ print(est)
 There is a plot function for `lls` objects. It returns a `ggplot` object, so you can customize it further with standard `ggplot2` functions.
 
 ```{r}
-plot(est)
+library(ggplot2)
+plot(est) + 
+labs(title = "Heterogeneous Effects of Beliefs by Update Size",
+     x = "Change in Beliefs",
+     y = "",
+     subtitle = "Conditional Average Partial Effect")
 ```
 
 

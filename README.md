@@ -101,12 +101,12 @@ print(est)
 #> 
 #> Average Partial Effect (APE):
 #>   Estimate:   0.9454
-#>   Std. Err:   0.1016
-#>   t-value:    9.3085
+#>   Std. Err:   0.0878
+#>   t-value:   10.7631
 #>   p-value:   <0.001
 #> 
-#> Normal CI (95%): [ 0.7464,  1.1445]
-#> Percentile CI (95%): [ 0.7184,  1.1205]
+#> Normal CI (95%): [ 0.7733,  1.1176]
+#> Percentile CI (95%): [ 0.7574,  1.0951]
 #> 
 #> Estimation Details:
 #>   Bandwidth:   0.0500
@@ -120,7 +120,12 @@ object, so you can customize it further with standard `ggplot2`
 functions.
 
 ``` r
-plot(est)
+library(ggplot2)
+plot(est) + 
+labs(title = "Heterogeneous Effects of Beliefs by Update Size",
+     x = "Change in Beliefs",
+     y = "",
+     subtitle = "Conditional Average Partial Effect")
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
