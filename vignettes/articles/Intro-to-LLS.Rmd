@@ -193,7 +193,7 @@ dt_passive[Z == 0, posterior := prior]  # Controls keep priors
 dt_passive[, Y_passive := tau * posterior + rnorm(n)]
 
 # Case 1: Use prior precision to infer learning rates
-dt_passive[, prior_precision := 1 / (tau + 1)]  # Higher tau → more precise priors
+dt_passive[, prior_precision := sigma2]  # Higher tau → more precise priors
 
 # Passive LLS (Case 1: observed prior variance)
 passive_lls <- iv.lls(
