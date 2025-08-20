@@ -11,14 +11,14 @@ template:
   bootswatch: flatly
   includes:
     in_header: |
-      <!-- Global site tag (gtag.js) - Google Analytics -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id={YOUR TRACKING ID}"#' ></script>
+      <!-- Google tag (gtag.js) -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-LWVQZ3G5BL"></script>
       <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-        gtag('config', '{YOUR TRACKING ID}');
+      gtag('config', 'G-LWVQZ3G5BL');
       </script>
 authors:
   Dylan Balla-Elliott:

@@ -6,8 +6,8 @@
 # lls: Local Least Squares for Information Provision Experiments
 
 **If you’re reading this, you’ve found the pre-release version of this
-package. Use at your own risk, and please check this repo frequently for
-updates. Please open an issue if you find a bug!**
+package. Please check this repo frequently for updates. Please open an
+issue if you find a bug!**
 
 <!-- badges: start -->
 
@@ -21,7 +21,24 @@ there is strong dependence between belief updating and belief effects.
 
 ## Installation
 
-You can install the most recent version of `lls` from GitHub with:
+### PRE-RELEASE
+
+You can directly install `lls` from the source code (i.e. the contents
+of this repo). To do so, save the `lls` folder somewhere on your
+computer and then you can install from the source with
+`install.packages`.
+
+The instructions to install from `lls_<version>.tar.gz` are identical.
+
+``` r
+# if installing from the source **folder**
+install.packages("path/to/lls", repos = NULL, type = 'source')
+# or more simply from the .tar.gz
+install.packages("path/to/lls_<version>.tar.gz")
+```
+
+When the package is live, you can install the most recent version of
+`lls` from GitHub with:
 
 ``` r
 devtools::install_github("dballaelliott/lls")
@@ -84,12 +101,12 @@ print(est)
 #> 
 #> Average Partial Effect (APE):
 #>   Estimate:   0.9454
-#>   Std. Err:   0.1166
-#>   t-value:    8.1096
+#>   Std. Err:   0.1016
+#>   t-value:    9.3085
 #>   p-value:   <0.001
 #> 
-#> Normal CI (95%): [ 0.7169,  1.1739]
-#> Percentile CI (95%): [ 0.7435,  1.1968]
+#> Normal CI (95%): [ 0.7464,  1.1445]
+#> Percentile CI (95%): [ 0.7184,  1.1205]
 #> 
 #> Estimation Details:
 #>   Bandwidth:   0.0500
@@ -106,7 +123,7 @@ functions.
 plot(est)
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 ## Citation
 

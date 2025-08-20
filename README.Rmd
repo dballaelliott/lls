@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 # lls: Local Least Squares for Information Provision Experiments
 
-**If you're reading this, you've found the pre-release version of this package. Use at your own risk, and please check this repo frequently for updates. Please open an issue if you find a bug!**
+**If you're reading this, you've found the pre-release version of this package. Please check this repo frequently for updates. Please open an issue if you find a bug!**
 
 <!-- badges: start --> 
 [![R-CMD-check](https://github.com/dballaelliott/LLS/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dballaelliott/LLS/actions/workflows/R-CMD-check.yaml) 
@@ -26,9 +26,24 @@ knitr::opts_chunk$set(
 
 This R package implements the Local Least Squares (LLS) estimator for identifying causal effects in information provision experiments. The LLS estimator consistently estimates Average Partial Effects (APE) even when there is strong dependence between belief updating and belief effects.
 
-## Installation
+## Installation 
 
-You can install the most recent version of `lls` from GitHub with:
+### PRE-RELEASE 
+
+You can directly install `lls` from the source code (i.e. the contents of this repo).
+To do so, save the `lls` folder somewhere on your computer and then you can install from the source with `install.packages`.
+
+The instructions to install from `lls_<version>.tar.gz` are identical. 
+
+```{r, eval = FALSE}
+# if installing from the source **folder**
+install.packages("path/to/lls", repos = NULL, type = 'source')
+# or more simply from the .tar.gz
+install.packages("path/to/lls_<version>.tar.gz")
+```
+
+
+When the package is live, you can install the most recent version of `lls` from GitHub with:
 
 ```{r, eval=FALSE}
 devtools::install_github("dballaelliott/lls")

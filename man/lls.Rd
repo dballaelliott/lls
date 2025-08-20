@@ -115,7 +115,7 @@ panel.lls(
 A list with elements: coef, se, micro.dt, ci.percentile, ci.normal, bs.ests, bs.micro, bandwidth
 }
 \description{
-If you're reading this, you've found the pre-release version of this package. Use at your own risk, and please check this repo frequently for updates. Please open an issue if you find a bug!
+If you're reading this, you've found the pre-release version of this package. Please check this repo frequently for updates. Please open an issue if you find a bug!
 }
 \section{Aliases}{
 
