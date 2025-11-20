@@ -31,7 +31,7 @@ gtag('config', 'G-LWVQZ3G5BL');
 
     <a class="navbar-brand me-2" href="index.html">lls</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.1.0</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,36 +64,38 @@ gtag('config', 'G-LWVQZ3G5BL');
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="lls-local-least-squares-for-information-provision-experiments">lls: Local Least Squares for Information Provision Experiments<a class="anchor" aria-label="anchor" href="#lls-local-least-squares-for-information-provision-experiments"></a>
 </h1></div>
-<p><strong>If you’re reading this, you’ve found the pre-release version of this package. Please check this repo frequently for updates. Please open an issue if you find a bug!</strong></p>
 <!-- badges: start -->
 
 <p>This R package implements the Local Least Squares (LLS) estimator for identifying causal effects in information provision experiments. The LLS estimator consistently estimates Average Partial Effects (APE) even when there is strong dependence between belief updating and belief effects.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<div class="section level3">
-<h3 id="pre-release">PRE-RELEASE<a class="anchor" aria-label="anchor" href="#pre-release"></a>
-</h3>
-<p>You can directly install <code>lls</code> from the source code (i.e. the contents of this repo). To do so, save the <code>lls</code> folder somewhere on your computer and then you can install from the source with <code>install.packages</code>.</p>
-<p>The instructions to install from <code>lls_&lt;version&gt;.tar.gz</code> are identical.</p>
+<p>You can install <code>lls</code> from GitHub using:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># if installing from the source **folder**</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"path/to/lls"</span>, repos <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">'source'</span><span class="op">)</span></span>
-<span><span class="co"># or more simply from the .tar.gz</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"path/to/lls_&lt;version&gt;.tar.gz"</span><span class="op">)</span></span></code></pre></div>
-<p>When the package is live, you can install the most recent version of <code>lls</code> from GitHub with:</p>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dballaelliott/lls"</span><span class="op">)</span></span></code></pre></div>
+<p>Alternatively, you can install from source by downloading this repository:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># From the source folder</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"path/to/lls"</span>, repos <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">'source'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or from a built tarball</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"path/to/lls_1.0.0.tar.gz"</span>, repos <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
+</h2>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dballaelliott/lls"</span><span class="op">)</span></span>
 <span><span class="co"># build_vignettes = TRUE gives you some local examples with </span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dballaelliott/lls"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co"># now you have vignette('lls-intro')</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dballaelliott.github.io/lls/">lls</a></span><span class="op">)</span></span></code></pre></div>
 </div>
-</div>
 <div class="section level2">
-<h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
+<h2 id="quick-start-1">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start-1"></a>
 </h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Basic usage - Active/Passive Control</span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lls.html">iv.lls</a></span><span class="op">(</span></span>
 <span>  dat <span class="op">=</span> <span class="va">your_data</span>,</span>
@@ -118,7 +120,7 @@ gtag('config', 'G-LWVQZ3G5BL');
 <h2 id="a-simple-example-with-simulated-data">A Simple Example with Simulated Data<a class="anchor" aria-label="anchor" href="#a-simple-example-with-simulated-data"></a>
 </h2>
 <p>The <code>lls</code> package comes with a simulated dataset <code>info.sim</code> to highlight how the syntax works and to make some example plots.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the package</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dballaelliott.github.io/lls/">lls</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
@@ -142,12 +144,12 @@ gtag('config', 'G-LWVQZ3G5BL');
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Average Partial Effect (APE):</span></span>
 <span><span class="co">#&gt;   Estimate:   0.9454</span></span>
-<span><span class="co">#&gt;   Std. Err:   0.0878</span></span>
-<span><span class="co">#&gt;   t-value:   10.7631</span></span>
+<span><span class="co">#&gt;   Std. Err:   0.0912</span></span>
+<span><span class="co">#&gt;   t-value:   10.3613</span></span>
 <span><span class="co">#&gt;   p-value:   &lt;0.001</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Normal CI (95%): [ 0.7733,  1.1176]</span></span>
-<span><span class="co">#&gt; Percentile CI (95%): [ 0.7574,  1.0951]</span></span>
+<span><span class="co">#&gt; Normal CI (95%): [ 0.7666,  1.1243]</span></span>
+<span><span class="co">#&gt; Percentile CI (95%): [ 0.7853,  1.1509]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Estimation Details:</span></span>
 <span><span class="co">#&gt;   Bandwidth:   0.0500</span></span>
@@ -155,7 +157,7 @@ gtag('config', 'G-LWVQZ3G5BL');
 <span><span class="co">#&gt;   Observations: 500</span></span>
 <span><span class="co">#&gt;   Support points: 500</span></span></code></pre></div>
 <p>There is a plot function for <code>lls</code> objects. It returns a <code>ggplot</code> object, so you can customize it further with standard <code>ggplot2</code> functions.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">est</span><span class="op">)</span> <span class="op">+</span> </span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Heterogeneous Effects of Beliefs by Update Size"</span>,</span>
@@ -227,7 +229,7 @@ gtag('config', 'G-LWVQZ3G5BL');
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

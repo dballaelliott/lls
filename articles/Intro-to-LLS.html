@@ -29,7 +29,7 @@ gtag('config', 'G-LWVQZ3G5BL');
 
     <a class="navbar-brand me-2" href="../index.html">lls</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.1.0</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -167,7 +167,7 @@ is simple:</p>
 <span>     x <span class="op">=</span> <span class="st">"Change in Beliefs"</span>,</span>
 <span>     y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intro-to-LLS_files/figure-html/panel_plot-1.png" width="768"></p>
+<p><img src="Intro-to-LLS_files/figure-html/panel_plot-1.png" class="r-plt" width="768"></p>
 <p>Sometimes, it’s useful to visualize the CAPE curve with the absolute
 value of the belief changes on the x-axis. In this case, it makes the
 attenuation bias more apparent, as it shows how effects vary with the
@@ -180,7 +180,7 @@ size of belief updates regardless of direction. We can do that with the
 <span>     x <span class="op">=</span> <span class="st">"Change in Beliefs (Absolute Value)"</span>,</span>
 <span>     y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intro-to-LLS_files/figure-html/panel_plot_abs-1.png" width="768"></p>
+<p><img src="Intro-to-LLS_files/figure-html/panel_plot_abs-1.png" class="r-plt" width="768"></p>
 <p>The <code>plot</code> command returns a <code>ggplot</code> object,
 so I was able to customize the plot using standard <code>ggplot2</code>
 commands.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;For even more customization, use the
@@ -267,7 +267,7 @@ condition on the variable we pass to <code>r</code>.</p>
 <span>     x <span class="op">=</span> <span class="st">"Learning Rate Percentile"</span>,</span>
 <span>     y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intro-to-LLS_files/figure-html/active_plot-1.png" width="768"></p>
+<p><img src="Intro-to-LLS_files/figure-html/active_plot-1.png" class="r-plt" width="768"></p>
 <p>Let’s try taking a more detailed look at the CAPE curve. We
 aggregated the binned estimates <em>after</em> estimation. That makes it
 very easy to change the number of bins, since we don’t have to redo the
@@ -279,7 +279,7 @@ bootstrapping.</p>
 <span>     x <span class="op">=</span> <span class="st">"Learning Rate Percentile"</span>,</span>
 <span>     y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intro-to-LLS_files/figure-html/active_plot_bins-1.png" width="700"></p>
+<p><img src="Intro-to-LLS_files/figure-html/active_plot_bins-1.png" class="r-plt" width="700"></p>
 <p>I think the first figure looks better! There’s a bias-variance
 tradeoff – more bins gives us more detail, but at the cost of (much)
 wider standard errors. That’s to be expected, though, since we’re using
@@ -342,7 +342,7 @@ designs.</p>
 <span>     x <span class="op">=</span> <span class="st">"Learning Rate Percentile"</span>,</span>
 <span>     y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intro-to-LLS_files/figure-html/passive_example-1.png" width="700"></p>
+<p><img src="Intro-to-LLS_files/figure-html/passive_example-1.png" class="r-plt" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -389,7 +389,7 @@ Information Provision Experiments.” <a href="https://doi.org/10.48550/arXiv.23
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
