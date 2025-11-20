@@ -18,9 +18,6 @@ knitr::opts_chunk$set(
 ```
 
 
-**If you're reading this, you've found the pre-release version of this package. Use at your own risk, and please check this repo frequently for updates. Please open an issue if you find a bug!**
-
-
 This R package implements the estimator proposed in [*Identifying Causal Effects in Information Provision Experiments*](https://pdfs.dballaelliott.com/info_iv.pdf). 
 
 The package handles the multi-step estimation process, including bootstrap inference. It also provides a simple wrapper to visualize the CAPE curve, like in the paper. There are lots of options to customize estimation (and you should experiment with them), but the package also provides sensible defaults to get you started quickly.

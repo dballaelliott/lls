@@ -115,7 +115,7 @@ panel.lls(
 A list with elements: coef, se, micro.dt, ci.percentile, ci.normal, bs.ests, bs.micro, bandwidth
 }
 \description{
-If you're reading this, you've found the pre-release version of this package. Please check this repo frequently for updates. Please open an issue if you find a bug!
+Implements the Local Least Squares (LLS) estimator for identifying causal effects in information provision experiments.
 }
 \section{Aliases}{
 

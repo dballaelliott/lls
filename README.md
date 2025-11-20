@@ -5,10 +5,6 @@
 
 # lls: Local Least Squares for Information Provision Experiments
 
-**If you’re reading this, you’ve found the pre-release version of this
-package. Please check this repo frequently for updates. Please open an
-issue if you find a bug!**
-
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/dballaelliott/LLS/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dballaelliott/LLS/actions/workflows/R-CMD-check.yaml)
@@ -21,24 +17,25 @@ there is strong dependence between belief updating and belief effects.
 
 ## Installation
 
-### PRE-RELEASE
-
-You can directly install `lls` from the source code (i.e. the contents
-of this repo). To do so, save the `lls` folder somewhere on your
-computer and then you can install from the source with
-`install.packages`.
-
-The instructions to install from `lls_<version>.tar.gz` are identical.
+You can install `lls` from GitHub using:
 
 ``` r
-# if installing from the source **folder**
-install.packages("path/to/lls", repos = NULL, type = 'source')
-# or more simply from the .tar.gz
-install.packages("path/to/lls_<version>.tar.gz")
+# install.packages("devtools")
+devtools::install_github("dballaelliott/lls")
 ```
 
-When the package is live, you can install the most recent version of
-`lls` from GitHub with:
+Alternatively, you can install from source by downloading this
+repository:
+
+``` r
+# From the source folder
+install.packages("path/to/lls", repos = NULL, type = 'source')
+
+# Or from a built tarball
+install.packages("path/to/lls_1.0.0.tar.gz", repos = NULL)
+```
+
+## Quick Start
 
 ``` r
 devtools::install_github("dballaelliott/lls")
@@ -101,12 +98,12 @@ print(est)
 #> 
 #> Average Partial Effect (APE):
 #>   Estimate:   0.9454
-#>   Std. Err:   0.0878
-#>   t-value:   10.7631
+#>   Std. Err:   0.0912
+#>   t-value:   10.3613
 #>   p-value:   <0.001
 #> 
-#> Normal CI (95%): [ 0.7733,  1.1176]
-#> Percentile CI (95%): [ 0.7574,  1.0951]
+#> Normal CI (95%): [ 0.7666,  1.1243]
+#> Percentile CI (95%): [ 0.7853,  1.1509]
 #> 
 #> Estimation Details:
 #>   Bandwidth:   0.0500

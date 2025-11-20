@@ -18,8 +18,6 @@ knitr::opts_chunk$set(
 
 # lls: Local Least Squares for Information Provision Experiments
 
-**If you're reading this, you've found the pre-release version of this package. Please check this repo frequently for updates. Please open an issue if you find a bug!**
-
 <!-- badges: start --> 
 [![R-CMD-check](https://github.com/dballaelliott/LLS/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dballaelliott/LLS/actions/workflows/R-CMD-check.yaml) 
 <!-- badges: end -->
@@ -28,22 +26,24 @@ This R package implements the Local Least Squares (LLS) estimator for identifyin
 
 ## Installation 
 
-### PRE-RELEASE 
+You can install `lls` from GitHub using:
 
-You can directly install `lls` from the source code (i.e. the contents of this repo).
-To do so, save the `lls` folder somewhere on your computer and then you can install from the source with `install.packages`.
-
-The instructions to install from `lls_<version>.tar.gz` are identical. 
-
-```{r, eval = FALSE}
-# if installing from the source **folder**
-install.packages("path/to/lls", repos = NULL, type = 'source')
-# or more simply from the .tar.gz
-install.packages("path/to/lls_<version>.tar.gz")
+```r
+# install.packages("devtools")
+devtools::install_github("dballaelliott/lls")
 ```
 
+Alternatively, you can install from source by downloading this repository:
 
-When the package is live, you can install the most recent version of `lls` from GitHub with:
+```{r, eval = FALSE}
+# From the source folder
+install.packages("path/to/lls", repos = NULL, type = 'source')
+
+# Or from a built tarball
+install.packages("path/to/lls_1.0.0.tar.gz", repos = NULL)
+```
+
+## Quick Start
 
 ```{r, eval=FALSE}
 devtools::install_github("dballaelliott/lls")

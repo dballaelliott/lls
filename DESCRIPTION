@@ -1,17 +1,18 @@
 Package: lls
 Type: Package
 Title: Local Least Squares Estimation for Information Provision Experiments
-Version: 0.1.0
+Version: 1.0.0
+Author: Dylan Balla-Elliott <dballaelliott@gmail.com>
+Maintainer: Dylan Balla-Elliott <dballaelliott@gmail.com>
 Authors@R: c(
     person("Dylan", "Balla-Elliott", email = "dballaelliott@gmail.com", 
-    role = c("aut", "cre"))
-    )
+           role = c("aut", "cre")))
 Description: Implements the Local Least Squares (LLS) estimator for identifying 
     causal effects in information provision experiments. The LLS estimator 
     consistently estimates Average Partial Effects (APE) even when there is 
     strong dependence between belief updating and belief effects. Includes 
     plotting functions for visualizing results with binned estimates and 
-    confidence intervals. 
+    confidence intervals.
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.3.2
@@ -34,6 +35,6 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-URL:  https://dballaelliott.github.io/lls/, https://github.com/dballaelliott/lls/, https://www.dballaelliott.com
+URL: https://dballaelliott.github.io/lls/, https://github.com/dballaelliott/lls/, https://www.dballaelliott.com
 BugReports: https://github.com/dballaelliott/lls/issues
 Config/testthat/edition: 3

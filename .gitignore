@@ -21,3 +21,6 @@ docs/
 
 
 *.tar.gz
+CLAUDE.md
+..Rcheck/*
+README.html

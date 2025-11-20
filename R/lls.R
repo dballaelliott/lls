@@ -7,6 +7,8 @@ epanechnikov <- function(x) {
 #' Internal: trimmed standard deviation helper
 #' @keywords internal
 trunc.sd <- function(x, trim = 0.02) {
+  # trim = 0.02: Remove top/bottom 1% of values (2% total trimming)
+  # Following Hansen (2007) recommendation for robust bootstrap inference
   if (trim == 0) return(sd(x, na.rm = TRUE))
   x <- x[!is.na(x)]
   x <- x[abs(x) < quantile(abs(x), probs = 1 - trim)]
@@ -15,7 +17,7 @@ trunc.sd <- function(x, trim = 0.02) {
 
 #' Local Least Squares (LLS) Estimation
 #' 
-#' If you're reading this, you've found the pre-release version of this package. Please check this repo frequently for updates. Please open an issue if you find a bug!
+#' Implements the Local Least Squares (LLS) estimator for identifying causal effects in information provision experiments.
 #' 
 #' @name lls
 #' @section Aliases:
@@ -257,20 +259,26 @@ lls.internal <- function(dat, y = NULL, x = NULL, dy = NULL, dx = NULL,
     # only bootstrap in the outermost call
     mc_for_recursion$bootstrap <- FALSE
 
-    # If bandwidth is not provided, use rule of thumb
+    # Bandwidth selection using rule-of-thumb or defaults
     if (is.null(bandwidth)) {
         if (user.call.level) {
             message("No bandwidth provided, using defaults. You should experiment with the bandwidth.")
         }
 
         if (!normalize.r & !normalize.x) {
-            bandwidth <- .9 / sqrt(12) / nrow(dat)^(1 / 5)
+            # Silverman's rule-of-thumb for kernel regression, adapted for LLS
+            # 0.9 = efficiency factor for Epanechnikov kernel relative to normal kernel
+            # sqrt(12) = variance of uniform distribution (approximates continuous data)  
+            # n^(-1/5) = optimal bandwidth rate for nonparametric regression
+            bandwidth <- 0.9 / sqrt(12) / nrow(dat)^(1 / 5)
             if(user.call.level) {
                 message("Using rule-of-thumb bandwidth: ", round(bandwidth, 4))
             }
         }
         else if (normalize.r | normalize.x) {
-            bandwidth <- 0.05 # default bandwidth for normalized variables
+            # For normalized variables (ranks scaled to [0,1]), use fixed proportion
+            # 0.05 = 5% of the normalized range, reasonable heuristic
+            bandwidth <- 0.05 
             if(user.call.level) {
                 message("Using default bandwidth of 0.05 for normalized variables.\n",
                         "This is roughly 5% of the data in each local regression.")
@@ -278,9 +286,18 @@ lls.internal <- function(dat, y = NULL, x = NULL, dy = NULL, dx = NULL,
         }
     }
 
-    ## end of cross validation
-    if (is.null(trim.zero) & pointmass.zero)  trim.zero <- .Machine$double.eps^0.5
-    if (is.null(trim.zero) & !pointmass.zero) trim.zero <- bandwidth / 2
+    # Set trimming threshold for support points near zero
+    # This prevents numerical issues and ensures sufficient local sample sizes
+    if (is.null(trim.zero) & pointmass.zero) {
+        # .Machine$double.eps^0.5 ≈ 1.49e-08: square root of machine precision
+        # Used when treating zero as a point mass (panel mode with pointmass.zero=TRUE)
+        trim.zero <- .Machine$double.eps^0.5  
+    }
+    if (is.null(trim.zero) & !pointmass.zero) {
+        # bandwidth/2: trim support points within half-bandwidth of zero
+        # Ensures local regressions have adequate sample size and numerical stability
+        trim.zero <- bandwidth / 2
+    }
 
 
     # --------------------------- BEGIN MAIN ESTIMATES --------------------------- #
@@ -312,10 +329,6 @@ lls.internal <- function(dat, y = NULL, x = NULL, dy = NULL, dx = NULL,
             vec <- dt[abs(r) >= .Machine$double.eps^0.5, .SD, .SDcols = c("r", weights)]
         } else {
             vec <- dt[abs(r) >= (trim.zero + bandwidth/2), .SD, .SDcols = c("r", weights)]
-        }
-        if (!is.null(r)){
-            vec <- dt[, .SD, .SDcols = c(r, weights)]
-        setnames(vec,r, "r")
         }
         suppR <- fquantile(vec$r, probs = probs, w = if (!is.null(weights)) vec[[weights]] else NULL)
     }
@@ -389,11 +402,25 @@ lls.internal <- function(dat, y = NULL, x = NULL, dy = NULL, dx = NULL,
                         stats::coef(stats::lm(fml, data = touse, weights = wt.touse))[[x]]
                     }, error = function(e) NA_real_)
             } else { # no FE, or controls, use .lm.fit
-                xM <- as.matrix(cbind(1, dt[[x]])) * sqrt(wt)
-                tau_r <- .lm.fit(
-                    xM, # x
-                    sqrt(wt) * dt[[y]] # Y
-                )$coefficients[2] # way faster
+                # Construct design matrix with error checking
+                tryCatch({
+                    xM <- as.matrix(cbind(1, dt[[x]])) * sqrt(wt)
+                    y_vec <- sqrt(wt) * dt[[y]]
+                    
+                    # Check for valid matrix dimensions and finite values
+                    if (nrow(xM) == 0 || any(!is.finite(xM)) || any(!is.finite(y_vec))) {
+                        tau_r <- NA_real_
+                    } else {
+                        lm_result <- .lm.fit(xM, y_vec)
+                        tau_r <- if (length(lm_result$coefficients) >= 2) {
+                            lm_result$coefficients[2]
+                        } else {
+                            NA_real_
+                        }
+                    }
+                }, error = function(e) {
+                    tau_r <- NA_real_
+                })
             }
 
 
@@ -430,97 +457,133 @@ lls.internal <- function(dat, y = NULL, x = NULL, dy = NULL, dx = NULL,
     # ---------------------------- END MAIN ESTIMATES ---------------------------- #
 
 
+    # Bootstrap inference section
     if (bootstrap) {
         message("Bootstrapping with ", bootstrap.n, " iterations")
 
+        # Parallel bootstrap estimation using pblapply
         bs_est_list <- pblapply(1:bootstrap.n, \(bs_id){
+            # Create fresh copy of original data for each bootstrap iteration
             dt <- copy(dat)
             
+            # Set up clustering variable if specified
             if (!is.null(cluster)){
                 dt$cluster <- dt[[cluster]]
             }
 
-            # # Bayesian bootstrap: draw weights from a dirichlet distribution
-            # bayesian bootstrap
-            bs_weightname <- weights
+            # Determine bootstrap type and create resampled/reweighted data
+            bs_weightname <- weights  # Default to original weights name
+            
             if (bootstrap.bayesian) {
-                if (!is.null(cluster)) { # clustering
-                    # cluster bootstrap
+                # BAYESIAN BOOTSTRAP: Uses Dirichlet weights instead of resampling
+                # This is often preferred for smooth inference
+                
+                if (!is.null(cluster)) {
+                    # Clustered Bayesian bootstrap: assign Dirichlet weights to clusters
                     if (bs_id == 1) message("Clustered by ", cluster)
-                    dt[, cluster_id := .GRP, by = cluster]
-                    # dt[, cluster_id := .GRP, by = get(cluster)]
+                    dt[, cluster_id := .GRP, by = cluster]  # Create cluster IDs
+                    
+                    # Get unique clusters and assign Dirichlet weights at cluster level
                     cluster.dt <- dt[, list(cluster_id)] |> unique()
                     cluster.dt$bsweights <- rdirichlet(n = 1, rep(1, nrow(cluster.dt))) |> as.vector()
-                    dt <- dt[cluster.dt, on = "cluster_id"]
+                    dt <- dt[cluster.dt, on = "cluster_id"]  # Merge weights back to main data
                 }
-                else { # no clustering
+                else {
+                    # Individual-level Bayesian bootstrap: Dirichlet weights for each observation
                     dt$bsweights <- rdirichlet(n = 1, rep(1, nrow(dt))) |> as.vector()
                 }
 
+                # If original weights exist, multiply them with bootstrap weights
                 if (!is.null(weights)) dt$bsweights <- dt$bsweights * dt[[weights]]
 
+                # Update weight variable name for recursive call
                 bs_weightname <- "bsweights"
                 mc_for_recursion[['weights']] <- bs_weightname
 
-            } else { # standard bootstrap
-                if (!is.null(cluster)) { # clustering
+            } else {
+                # STANDARD BOOTSTRAP: Traditional resampling with replacement
+                
+                if (!is.null(cluster)) {
+                    # Clustered standard bootstrap: resample entire clusters
                     if (bs_id == 1) message("Clustered by ", cluster)
                     dt[, cluster_id := .GRP, by = cluster]
 
                     if (!is.null(weights)) {
+                        # Weight-adjusted cluster resampling: sample clusters with probability proportional to total weight
                         cluster.dt <- dt[, .(wt = fsum(get(weights))), keyby = cluster_id]
-                        cluster.dt <- cluster.dt[sample(.N, replace = T, prob = cluster.dt$wt)]
+                        cluster.dt <- cluster.dt[sample(.N, replace = TRUE, prob = cluster.dt$wt)]
                     }
                     else {
+                        # Unweighted cluster resampling: sample clusters uniformly
                         cluster.dt <- dt[, list(cluster_id)] |> unique()
-                        cluster.dt <- cluster.dt[sample(.N, replace = T)]
+                        cluster.dt <- cluster.dt[sample(.N, replace = TRUE)]
                     }
+                    # Expand sampled clusters back to individual observations
                     dt <- dt[cluster.dt, on = "cluster_id", allow.cartesian=TRUE]
                 }
-                else { # no clustering
-                    if (!is.null(weights)) dt <- dt[sample(.N, replace =T, prob =dt[[weights]])]
-                    else dt <- dt[sample(.N,replace = T)]
+                else {
+                    # Individual-level standard bootstrap
+                    if (!is.null(weights)) {
+                        # Weight-adjusted resampling: sample individuals with probability proportional to weights
+                        dt <- dt[sample(.N, replace = TRUE, prob = dt[[weights]])]
+                    } else {
+                        # Unweighted resampling: sample individuals uniformly
+                        dt <- dt[sample(.N, replace = TRUE)]
+                    }
                 }
-
             }
 
 
+            # Update recursive call with bootstrap data
             mc_for_recursion[['dat']] <- dt
 
-            # need to make sure we don't display any messages
-            # sink(file = file(tempfile(pattern = bs_id), open = "wt"), type = "message")
+            # Recursively call lls.internal with bootstrap data (messages suppressed in recursive calls)
             bs.out <- eval(mc_for_recursion)
-            bs_est <- bs.out$coef |> unname()
+            bs_est <- bs.out$coef |> unname()  # Extract coefficient estimate
 
+            # Store micro-level estimates with bootstrap ID for later aggregation
             bs_micro <- bs.out$micro.dt
-            bs_micro[, bs_id := bs_id]
+            bs_micro[, bs_id := bs_id]  # Tag with bootstrap iteration number
 
             return(
                 list(
-                    bs_est = bs_est,
-                    bs_micro = bs_micro
+                    bs_est = bs_est,      # Main coefficient for this bootstrap sample
+                    bs_micro = bs_micro   # Micro-level estimates for plotting/diagnostics
                 )
             )
-        }, cl = n.cores)
-        # })
+        }, cl = n.cores)  # End parallel bootstrap loop
 
+        # Aggregate bootstrap results
+        # Combine all micro-level estimates across bootstrap iterations
         bs.micro <- lapply(bs_est_list, \(x) x$bs_micro) |> rbindlist(use.names = TRUE, fill = TRUE)
+        # Extract vector of coefficient estimates
         bs_ests <- lapply(bs_est_list, \(x) x$bs_est) |> unlist(use.names = FALSE)
 
+        # Quality control: remove non-numeric bootstrap estimates
         valid.bs <- bs_ests[is.numeric(bs_ests)]
         if (length(valid.bs) != bootstrap.n) {
             message("Warning: ", bootstrap.n - length(valid.bs), " bootstrap estimates were not numeric")
         }
         bs_ests <- valid.bs
-        # print("can we get the SD?")
-        # add cite: bruce hansen suggests trimming the top and bottom 1% of the bootstrap estimates
+        
+        # Calculate standard error using trimmed standard deviation
+        # Hansen (2007) suggests trimming extreme values to improve finite-sample performance
         sd <- trunc.sd(bs_ests, trim = sd.trim)
 
-        # print(sd)
-        # print("can we get the CI?")
-        # print(bs_ests)
-    ci.percentile <- stats::quantile(bs_ests, probs = c((1 - ci.level) / 2, 1 - (1 - ci.level) / 2), names = FALSE, type = 7)
-        ci.normal <- c(TAU + qnorm((1 - ci.level) / 2) * sd, TAU + qnorm(1-(1 - ci.level) / 2) * sd)
+        # Construct confidence intervals using two methods:
+        # 1. Percentile CI: directly from bootstrap distribution quantiles
+        ci.percentile <- stats::quantile(
+            bs_ests, 
+            probs = c((1 - ci.level) / 2, 1 - (1 - ci.level) / 2), 
+            names = FALSE, 
+            type = 7  # Use R's default quantile type
+        )
+        
+        # 2. Normal CI: assumes bootstrap distribution is approximately normal
+        ci.normal <- c(
+            TAU + qnorm((1 - ci.level) / 2) * sd,      # Lower bound
+            TAU + qnorm(1 - (1 - ci.level) / 2) * sd   # Upper bound
+        )
 
     }
 
