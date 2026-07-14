@@ -40,7 +40,7 @@ NULL
 #' @importFrom pbapply pblapply
 #' @importFrom parallelly availableCores
 #' @importFrom Matrix Diagonal
-#' @importFrom collapse fmean fsum fquantile
+#' @importFrom collapse fmean fsum fquantile fmax
 #' @importFrom DirichletReg rdirichlet
 #' @importFrom dplyr near
 #' @importFrom stats approx as.formula coef lm optimize quantile sd setNames qnorm pnorm rnorm runif .lm.fit
@@ -164,7 +164,7 @@ panel.lls <- function(
 #' @param control.fml Optional; formula string for control variables (default: NULL)
 #' @param bandwidth Numeric; bandwidth value, if NULL will use rule-of-thumb (default: NULL)
 #' @param normalize.x Logical; whether to use ranks of x instead of raw values (default: FALSE; panel mode only)
-#' @param normalize.r Logical; whether to normalize the running variable r to be equally spaced between 0 and 1 within sign groups (default: TRUE)
+#' @param normalize.r Logical; whether to normalize the running variable r to be equally spaced between 0 and 1 within sign groups (default: TRUE). Ranks are dense, so tied values share a rank and the spacing is over distinct values; with a group-level treatment, local windows then contain uneven row counts (proportional to group sizes).
 #' @param r.support.points Integer; number of support points to use in estimation (default: nrow(dat))
 #' @param bootstrap Logical; whether to perform bootstrap inference (default: FALSE)
 #' @param bootstrap.bayesian Logical; whether to use Bayesian bootstrap (TRUE) or standard bootstrap (default: TRUE)
@@ -281,7 +281,7 @@ lls.internal <- function(dat, y = NULL, x = NULL, dy = NULL, dx = NULL,
             bandwidth <- 0.05 
             if(user.call.level) {
                 message("Using default bandwidth of 0.05 for normalized variables.\n",
-                        "This is roughly 5% of the data in each local regression.")
+                        "This is roughly 5% of the distinct values of the running variable in each local regression.")
             }
         }
     }
@@ -323,7 +323,11 @@ lls.internal <- function(dat, y = NULL, x = NULL, dy = NULL, dx = NULL,
 
 
     suppR <- sort(unique(dt$r))
-    if (r.support.points < length(suppR)) {
+    # with ties, length(suppR) is the number of distinct values, which can be far
+    # below nrow(dat) -- key the aggregation branch on whether we actually
+    # subsampled the support, not on r.support.points == nrow(dat)
+    subsampled <- r.support.points < length(suppR)
+    if (subsampled) {
         probs <- seq(0, 1, length.out = r.support.points + 2L)
         probs <- probs[probs > 0 & probs < 1]
         if (normalize.x) {
@@ -433,7 +437,7 @@ lls.internal <- function(dat, y = NULL, x = NULL, dy = NULL, dx = NULL,
         # merge the tau_dt with the original data
         # unless we subsampled, in which case the weights have already entered
         # in picking support points
-        if (r.support.points == nrow(dat)) {
+        if (!subsampled) {
             tau_dt <- tau_dt[dt[, .(r = r)], on = "r"]
             # return the average of the taus
             if (nrow(tau_dt) > 0) {
