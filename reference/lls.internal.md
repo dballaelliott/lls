@@ -104,7 +104,10 @@ lls.internal(
 - normalize.r:
 
   Logical; whether to normalize the running variable r to be equally
-  spaced between 0 and 1 within sign groups (default: TRUE)
+  spaced between 0 and 1 within sign groups (default: TRUE). Ranks are
+  dense, so tied values share a rank and the spacing is over distinct
+  values; with a group-level treatment, local windows then contain
+  uneven row counts (proportional to group sizes).
 
 - r.support.points:
 

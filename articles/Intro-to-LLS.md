@@ -129,12 +129,12 @@ print(panel_lls)
     ## 
     ## Average Partial Effect (APE):
     ##   Estimate:   0.9817
-    ##   Std. Err:   0.0271
-    ##   t-value:   36.1851
+    ##   Std. Err:   0.0198
+    ##   t-value:   49.6515
     ##   p-value:   <0.001
     ## 
-    ## Normal CI (95%): [ 0.9286,  1.0349]
-    ## Percentile CI (95%): [ 0.9342,  1.0369]
+    ## Normal CI (95%): [ 0.9430,  1.0205]
+    ## Percentile CI (95%): [ 0.9347,  1.0177]
     ## 
     ## Estimation Details:
     ##   Bandwidth:   0.0500

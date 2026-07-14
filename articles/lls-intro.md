@@ -49,12 +49,12 @@ print(est)
 #> 
 #> Average Partial Effect (APE):
 #>   Estimate:   0.9454
-#>   Std. Err:   0.1068
-#>   t-value:    8.8550
+#>   Std. Err:   0.1019
+#>   t-value:    9.2818
 #>   p-value:   <0.001
 #> 
-#> Normal CI (95%): [ 0.7362,  1.1547]
-#> Percentile CI (95%): [ 0.7477,  1.1394]
+#> Normal CI (95%): [ 0.7458,  1.1451]
+#> Percentile CI (95%): [ 0.7484,  1.1721]
 #> 
 #> Estimation Details:
 #>   Bandwidth:   0.0500
