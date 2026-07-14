@@ -314,7 +314,8 @@ lls.internal <- function(dat, y = NULL, x = NULL, dy = NULL, dx = NULL,
 
 
     if (normalize.r | normalize.x) {
-        dt[, r := sign(LLS.INT.R) * frank(abs(LLS.INT.R), ties.method = "dense") / .N, by = sign(LLS.INT.R)]
+        dt[, r := sign(LLS.INT.R) * frank(abs(LLS.INT.R), ties.method = "dense"), by = sign(LLS.INT.R)]
+        dt[r != 0, r := r / fmax(abs(r)), by = sign(r)]
     }
     else {
         dt$r <- dt$LLS.INT.R
