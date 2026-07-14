@@ -353,7 +353,11 @@ lls.internal <- function(dat, y = NULL, x = NULL, dy = NULL, dx = NULL,
     b.eff <- se.eff <- TAU <- tau_dt <- NULL
     sd <- ci.percentile <- ci.normal <- bs_ests <- bs.micro <- NULL
     dt[, rowid := 1:.N]
-        tau_dt <- lapply(suppR, function(r) {
+    # estimate each distinct support point once; repeated grid quantiles (point
+    # masses) re-enter after estimation through their multiplicity, mirroring how
+    # the merge branch applies row mass to one regression per dose
+    supp_dt <- data.table(r = suppR)[, list(mult = .N), by = r]
+        tau_dt <- lapply(supp_dt$r, function(r) {
             # subset around the point r and the point 0
             wt1 <- kernel((r - dt$r) / (bandwidth / 2))
             wt0 <- NULL
@@ -433,6 +437,8 @@ lls.internal <- function(dat, y = NULL, x = NULL, dy = NULL, dx = NULL,
 
             data.table(tau_r = tau_r, tau_wt = fsum(wt1), x = x.point, r = r)
         }) |> rbindlist(use.names = TRUE, fill = TRUE)
+        # re-expand duplicated grid points so the grid mean keeps their weight
+        tau_dt <- tau_dt[rep(seq_len(nrow(tau_dt)), times = supp_dt$mult)]
 
         # merge the tau_dt with the original data
         # unless we subsampled, in which case the weights have already entered

@@ -83,6 +83,26 @@ test_that("explicit r.support.points above the distinct-value count takes the we
   expect_equal(est.default$coef, est.explicit$coef, tolerance = 0)
 })
 
+test_that("repeated quantiles from point masses stay in the subsampled grid", {
+  # one dose holds ~45% of rows: its rank must appear repeatedly among the grid
+  # quantiles, and the grid mean must count that multiplicity (that is how the
+  # quantile grid encodes row weights)
+  set.seed(3)
+  doses <- seq(0.5, 3, length.out = 11)
+  dose <- doses[rep(1:11, times = c(rep(30, 5), 450, rep(30, 5)))]
+  n <- length(dose)
+  dat <- data.frame(alpha = dose, posterior = dose + rnorm(n, sd = 0.1),
+                    Y = 2 * dose + rnorm(n))
+
+  est <- iv.lls(dat, y = "Y", x = "posterior", r = "alpha", bandwidth = 0.1,
+                r.support.points = 5)
+
+  grid <- est$micro.dt
+  expect_equal(nrow(grid), 5) # grid rows, not data rows
+  expect_true(sum(grid$r == 6 / 11) > 1) # heavy dose repeated, not deduplicated
+  expect_equal(est$coef, mean(grid$tau_r, na.rm = TRUE)) # mean counts multiplicity
+})
+
 test_that("negative sign group with ties spans to -1", {
   dat <- sim.clustered(n.firms = 20, workers = 25, negative = TRUE)
 
