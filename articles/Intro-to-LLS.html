@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>User's Guide • lls</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_3-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_3-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -117,7 +117,7 @@ make the plots here look like the ones in the paper.</p>
 <span><span class="va">U</span> <span class="op">&lt;-</span> <span class="va">V</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Generate the experimental data</span></span>
-<span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span></span>
+<span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></span><span class="op">(</span></span>
 <span>    tau <span class="op">=</span> <span class="va">tau</span>,</span>
 <span>    alpha <span class="op">=</span> <span class="va">alpha</span>,</span>
 <span>    Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0.5</span>  <span class="co"># Random treatment assignment</span></span>
@@ -167,7 +167,7 @@ is simple:</p>
 <span>     x <span class="op">=</span> <span class="st">"Change in Beliefs"</span>,</span>
 <span>     y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intro-to-LLS_files/figure-html/panel_plot-1.png" class="r-plt" width="768"></p>
+<p><img src="Intro-to-LLS_files/figure-html/panel_plot-1.png" class="r-plt" alt="" width="768"></p>
 <p>Sometimes, it’s useful to visualize the CAPE curve with the absolute
 value of the belief changes on the x-axis. In this case, it makes the
 attenuation bias more apparent, as it shows how effects vary with the
@@ -180,7 +180,7 @@ size of belief updates regardless of direction. We can do that with the
 <span>     x <span class="op">=</span> <span class="st">"Change in Beliefs (Absolute Value)"</span>,</span>
 <span>     y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intro-to-LLS_files/figure-html/panel_plot_abs-1.png" class="r-plt" width="768"></p>
+<p><img src="Intro-to-LLS_files/figure-html/panel_plot_abs-1.png" class="r-plt" alt="" width="768"></p>
 <p>The <code>plot</code> command returns a <code>ggplot</code> object,
 so I was able to customize the plot using standard <code>ggplot2</code>
 commands.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;For even more customization, use the
@@ -196,12 +196,12 @@ intervals, which you can then plot however you like.&lt;/p&gt;"><sup>3</sup></a>
 <span><span class="co">## </span></span>
 <span><span class="co">## Average Partial Effect (APE):</span></span>
 <span><span class="co">##   Estimate:   0.9817</span></span>
-<span><span class="co">##   Std. Err:   0.0258</span></span>
-<span><span class="co">##   t-value:   38.0006</span></span>
+<span><span class="co">##   Std. Err:   0.0271</span></span>
+<span><span class="co">##   t-value:   36.1851</span></span>
 <span><span class="co">##   p-value:   &lt;0.001</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Normal CI (95%): [ 0.9311,  1.0324]</span></span>
-<span><span class="co">## Percentile CI (95%): [ 0.9289,  1.0287]</span></span>
+<span><span class="co">## Normal CI (95%): [ 0.9286,  1.0349]</span></span>
+<span><span class="co">## Percentile CI (95%): [ 0.9342,  1.0369]</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Estimation Details:</span></span>
 <span><span class="co">##   Bandwidth:   0.0500</span></span>
@@ -239,7 +239,7 @@ plus the learning rate
 times the difference between the signal
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>
 and the prior:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>=</mo><msub><mi>X</mi><mn>0</mn></msub><mo>+</mo><mi>α</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>S</mi><mo>−</mo><msub><mi>X</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">X = X_0 + \alpha (S - X_0)</annotation></semantics></math><br>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>=</mo><msub><mi>X</mi><mn>0</mn></msub><mo>+</mo><mi>α</mi><mo stretchy="false" form="prefix">(</mo><mi>S</mi><mo>−</mo><msub><mi>X</mi><mn>0</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">X = X_0 + \alpha (S - X_0)</annotation></semantics></math><br>
 Since we know the prior and the signal, we can rearrange this to
 calculate
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mfrac><mrow><mi>X</mi><mo>−</mo><msub><mi>X</mi><mn>0</mn></msub></mrow><mrow><mi>S</mi><mo>−</mo><msub><mi>X</mi><mn>0</mn></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\alpha = \frac{X - X_0}{S - X_0}</annotation></semantics></math>.
@@ -267,7 +267,7 @@ condition on the variable we pass to <code>r</code>.</p>
 <span>     x <span class="op">=</span> <span class="st">"Learning Rate Percentile"</span>,</span>
 <span>     y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intro-to-LLS_files/figure-html/active_plot-1.png" class="r-plt" width="768"></p>
+<p><img src="Intro-to-LLS_files/figure-html/active_plot-1.png" class="r-plt" alt="" width="768"></p>
 <p>Let’s try taking a more detailed look at the CAPE curve. We
 aggregated the binned estimates <em>after</em> estimation. That makes it
 very easy to change the number of bins, since we don’t have to redo the
@@ -279,7 +279,7 @@ bootstrapping.</p>
 <span>     x <span class="op">=</span> <span class="st">"Learning Rate Percentile"</span>,</span>
 <span>     y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intro-to-LLS_files/figure-html/active_plot_bins-1.png" class="r-plt" width="700"></p>
+<p><img src="Intro-to-LLS_files/figure-html/active_plot_bins-1.png" class="r-plt" alt="" width="700"></p>
 <p>I think the first figure looks better! There’s a bias-variance
 tradeoff – more bins gives us more detail, but at the cost of (much)
 wider standard errors. That’s to be expected, though, since we’re using
@@ -318,7 +318,7 @@ various options and necessary assumptions in passive control
 designs.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create passive control data  </span></span>
-<span><span class="va">dt_passive</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/copy.html" class="external-link">copy</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span></span>
+<span><span class="va">dt_passive</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/copy.html" class="external-link">copy</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span></span>
 <span><span class="va">dt_passive</span><span class="op">[</span><span class="va">Z</span> <span class="op">==</span> <span class="fl">0</span>, <span class="va">posterior</span> <span class="op">:=</span> <span class="va">prior</span><span class="op">]</span>  <span class="co"># Controls keep priors</span></span>
 <span><span class="va">dt_passive</span><span class="op">[</span>, <span class="va">Y_passive</span> <span class="op">:=</span> <span class="va">tau</span> <span class="op">*</span> <span class="va">posterior</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
@@ -342,7 +342,7 @@ designs.</p>
 <span>     x <span class="op">=</span> <span class="st">"Learning Rate Percentile"</span>,</span>
 <span>     y <span class="op">=</span> <span class="st">""</span>,</span>
 <span>     subtitle <span class="op">=</span> <span class="st">"Conditional Average Partial Effect"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intro-to-LLS_files/figure-html/passive_example-1.png" class="r-plt" width="700"></p>
+<p><img src="Intro-to-LLS_files/figure-html/passive_example-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -389,7 +389,7 @@ Information Provision Experiments.” <a href="https://doi.org/10.48550/arXiv.23
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

@@ -16,6 +16,7 @@ The `lls` package comes with a simulated dataset `info.sim` to highlight
 how the syntax works and to make some example plots.
 
 ``` r
+
 # Load the package
 library(lls)
 #> Warning: replacing previous import 'collapse::fdroplevels' by
@@ -23,6 +24,11 @@ library(lls)
 #> Warning: replacing previous import 'collapse::fdim' by 'fixest::fdim' when
 #> loading 'lls'
 library(data.table)
+#> 
+#> Attaching package: 'data.table'
+#> The following object is masked from 'package:base':
+#> 
+#>     %notin%
 
 # Load packaged simulated data
 data(info.sim)
@@ -43,12 +49,12 @@ print(est)
 #> 
 #> Average Partial Effect (APE):
 #>   Estimate:   0.9454
-#>   Std. Err:   0.1056
-#>   t-value:    8.9490
+#>   Std. Err:   0.1068
+#>   t-value:    8.8550
 #>   p-value:   <0.001
 #> 
-#> Normal CI (95%): [ 0.7384,  1.1525]
-#> Percentile CI (95%): [ 0.6988,  1.1746]
+#> Normal CI (95%): [ 0.7362,  1.1547]
+#> Percentile CI (95%): [ 0.7477,  1.1394]
 #> 
 #> Estimation Details:
 #>   Bandwidth:   0.0500
@@ -62,6 +68,7 @@ object, so you can customize it further with standard `ggplot2`
 functions.
 
 ``` r
+
 plot(est)
 ```
 

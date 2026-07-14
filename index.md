@@ -10,6 +10,7 @@ there is strong dependence between belief updating and belief effects.
 You can install `lls` from GitHub using:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("dballaelliott/lls")
 ```
@@ -18,6 +19,7 @@ Alternatively, you can install from source by downloading this
 repository:
 
 ``` r
+
 # From the source folder
 install.packages("path/to/lls", repos = NULL, type = 'source')
 
@@ -28,6 +30,7 @@ install.packages("path/to/lls_1.0.0.tar.gz", repos = NULL)
 ## Quick Start
 
 ``` r
+
 devtools::install_github("dballaelliott/lls")
 # build_vignettes = TRUE gives you some local examples with 
 devtools::install_github("dballaelliott/lls", build_vignettes = TRUE)
@@ -38,6 +41,7 @@ library(lls)
 ## Quick Start
 
 ``` r
+
 # Basic usage - Active/Passive Control
 result <- iv.lls(
   dat = your_data,
@@ -65,6 +69,7 @@ The `lls` package comes with a simulated dataset `info.sim` to highlight
 how the syntax works and to make some example plots.
 
 ``` r
+
 # Load the package
 library(lls)
 library(data.table)
@@ -107,6 +112,7 @@ object, so you can customize it further with standard `ggplot2`
 functions.
 
 ``` r
+
 library(ggplot2)
 plot(est) + 
 labs(title = "Heterogeneous Effects of Beliefs by Update Size",

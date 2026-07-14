@@ -1,10 +1,10 @@
-pandoc: 3.1.11
-pkgdown: 2.2.0
+pandoc: 3.8.3
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   articles/Intro-to-LLS: Intro-to-LLS.html
   lls-intro: lls-intro.html
-last_built: 2025-11-20T17:45Z
+last_built: 2026-07-14T15:14Z
 urls:
   reference: https://dballaelliott.github.io/lls/reference
   article: https://dballaelliott.github.io/lls/articles

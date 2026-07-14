@@ -15,11 +15,12 @@ provides sensible defaults to get you started quickly.
 ### Simulation Setup
 
 To get started, let’s simulate some data. We’ll design a simulation
-where people with larger belief effects (higher values of $\tau$) have
-smaller belief updates (lower values of $\alpha$).[¹](#fn1) This will
-make the plots here look like the ones in the paper.
+where people with larger belief effects (higher values of $`\tau`$) have
+smaller belief updates (lower values of $`\alpha`$).[^1] This will make
+the plots here look like the ones in the paper.
 
 ``` r
+
 # Simulate data for active control design
 set.seed(617)
 n <- 500
@@ -59,7 +60,7 @@ dt[, dY := Y - Y0]  # Change in outcomes
 
 Panel designs observe beliefs and actions for same people before and
 after information provision. The standard approach is to regress the
-change in outcomes on the change in beliefs.[²](#fn2)
+change in outcomes on the change in beliefs.[^2]
 
 In these settings, the LLS estimator is a perfect drop-in replacement
 that doesn’t require any additional assumptions.
@@ -73,6 +74,7 @@ Importantly, the `lls` command expects to receive the data in changes,
 not as a panel with two observations per person. The syntax is simple:
 
 ``` r
+
 # Panel LLS using observed changes
 panel_lls <- panel.lls(
   dat = dt,  
@@ -100,6 +102,7 @@ size of belief updates regardless of direction. We can do that with the
 `abs.x = TRUE` argument:
 
 ``` r
+
 # Visualize how effects vary with belief updating
 plot(panel_lls, abs.x= TRUE) + 
 labs(title = "Panel Design: Effects by Belief Update Size",
@@ -111,12 +114,13 @@ labs(title = "Panel Design: Effects by Belief Update Size",
 ![](Intro-to-LLS_files/figure-html/panel_plot_abs-1.png)
 
 The `plot` command returns a `ggplot` object, so I was able to customize
-the plot using standard `ggplot2` commands.[³](#fn3)
+the plot using standard `ggplot2` commands.[^3]
 
 Finally, we can get the APE and standard errors by printing the `lls`
 return object.
 
 ``` r
+
 print(panel_lls)
 ```
 
@@ -125,12 +129,12 @@ print(panel_lls)
     ## 
     ## Average Partial Effect (APE):
     ##   Estimate:   0.9817
-    ##   Std. Err:   0.0258
-    ##   t-value:   38.0006
+    ##   Std. Err:   0.0271
+    ##   t-value:   36.1851
     ##   p-value:   <0.001
     ## 
-    ## Normal CI (95%): [ 0.9311,  1.0324]
-    ## Percentile CI (95%): [ 0.9289,  1.0287]
+    ## Normal CI (95%): [ 0.9286,  1.0349]
+    ## Percentile CI (95%): [ 0.9342,  1.0369]
     ## 
     ## Estimation Details:
     ##   Bandwidth:   0.0500
@@ -146,24 +150,24 @@ signals.
 The standard apparoach to analyze these experiments is to use assignment
 to (for example) the high signal as an instrument for posterior beliefs.
 The `lls` estimator is justified in this setting under a Bayesian
-updating assumption.[⁴](#fn4)
+updating assumption.[^4]
 
 When see how people update their beliefs based on these signals, this
 behavior “reveals” their learning rates. Then, we estimate the CAPE
 curve conditional on the learning rates and aggregate.
 
 > **Inferring the Learning Rate from the Observed Update**  
-> Bayesian updating implies that the posterior $X$ is the prior $X_{0}$
-> plus the learning rate $\alpha$ times the difference between the
-> signal $S$ and the prior:
-> $X = X_{0} + \alpha\left( S - X_{0} \right)$  
+> Bayesian updating implies that the posterior $`X`$ is the prior
+> $`X_0`$ plus the learning rate $`\alpha`$ times the difference between
+> the signal $`S`$ and the prior: $`X = X_0 + \alpha (S - X_0)`$  
 > Since we know the prior and the signal, we can rearrange this to
-> calculate $\alpha = \frac{X - X_{0}}{S - X_{0}}$. Once we’ve done
-> that, we pass that directly to `lls` as the `r` argument; the local
+> calculate $`\alpha = \frac{X - X_0}{S - X_0}`$. Once we’ve done that,
+> we pass that directly to `lls` as the `r` argument; the local
 > regressions will then be estimated condition on the variable we pass
 > to `r`.
 
 ``` r
+
 # Calculate learning rates from observed updating
 dt[, alpha_est := (posterior - prior) / (signal - prior)]
 
@@ -193,6 +197,7 @@ change the number of bins, since we don’t have to redo the
 bootstrapping.
 
 ``` r
+
 # Plot conditional effects by learning rate
 plot(active_lls, nbins = 20) + 
 labs(title = "Active Control: Effects by Learning Rate",
@@ -221,9 +226,9 @@ Passive control experiments compare treated people to a “pure” control
 group that does not receive any new information.
 
 The standard approach is to construct an “exposure instrument” and use
-this an instrument for the posterior beliefs.[⁵](#fn5) As in active
-control experiments, the `lls` estimator is justified in this setting
-under a Bayesian updating assumption.
+this an instrument for the posterior beliefs.[^5] As in active control
+experiments, the `lls` estimator is justified in this setting under a
+Bayesian updating assumption.
 
 However, unlike in active control experiments, there is a control group
 that the researcher never observes update. In this case, we need to make
@@ -231,11 +236,12 @@ an additional assumption that there are some additional control
 variables that we can use to predict the learning rate. One potentially
 attractive option is the *variance* of the prior belief. Under Bayesian
 updating, the learning rate is proportional to the variance of the prior
-belief.[⁶](#fn6) In this example, we assume that we know the variance of
-the prior beliefs. See the paper for more details on the various options
-and necessary assumptions in passive control designs.
+belief.[^6] In this example, we assume that we know the variance of the
+prior beliefs. See the paper for more details on the various options and
+necessary assumptions in passive control designs.
 
 ``` r
+
 # Create passive control data  
 dt_passive <- copy(dt)
 dt_passive[Z == 0, posterior := prior]  # Controls keep priors
@@ -274,6 +280,7 @@ their beliefs the most. The true APE is 1, and we expect TSLS to be too
 small. We can check this by running a simple TSLS regression:
 
 ``` r
+
 # TSLS: biased downward due to correlation between alpha and tau
 tsls <- feols(Y ~ 1 + prior | posterior ~ Z, data = dt)
 ```
@@ -286,6 +293,7 @@ is 0.757, which is significantly lower than the true APE of 1.
 We can also run a panel (first-differences) regression.
 
 ``` r
+
 # Panel regression: also biased downward
 panel <- feols(dY ~ dX + prior, data = dt)
 ```
@@ -305,30 +313,28 @@ working paper ([pdf](https://pdfs.dballaelliott.com/info_iv.pdf)) as
 For more information, visit
 [dballaelliott.com](https://www.dballaelliott.com/).\*
 
-------------------------------------------------------------------------
+[^1]: This might have happen if people rationally acquire information
+    when it matters for their decisions and then update their beliefs
+    less in response to new information.
 
-1.  This might have happen if people rationally acquire information when
-    it matters for their decisions and then update their beliefs less in
-    response to new information.
-
-2.  Or, equivalently, to regress the outcome on the belief with
+[^2]: Or, equivalently, to regress the outcome on the belief with
     individual fixed effects.
 
-3.  For even more customization, use the `no.plot = TRUE` argument and R
-    will return the `data.table` of the conditional effects and
+[^3]: For even more customization, use the `no.plot = TRUE` argument and
+    R will return the `data.table` of the conditional effects and
     confidence intervals, which you can then plot however you like.
 
-4.  Intuitively, Bayesian updating means that we can use the observed
+[^4]: Intuitively, Bayesian updating means that we can use the observed
     update in response to the *actual* signal to infer how people *would
     have* updated in response to the *other* signal. Bayesian updating
     lets us do this because once we know a person’s learning rate
-    $\alpha$, we know how they would respond to *any* signal.
+    $`\alpha`$, we know how they would respond to *any* signal.
 
-5.  One example of the exposure measure is the sign of difference
+[^5]: One example of the exposure measure is the sign of difference
     between the signal and the prior. Another example is using the
     difference between the signal and the prior. In both cases, the
     exposure instrument is the interaction between the exposure and the
     instrument, the exposure measure itself is included as a control.
 
-6.  We do also need to assume that everyone agrees on the variance of
+[^6]: We do also need to assume that everyone agrees on the variance of
     the *signal*.
