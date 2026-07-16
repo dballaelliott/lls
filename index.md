@@ -125,11 +125,12 @@ labs(title = "Heterogeneous Effects of Beliefs by Update Size",
 
 ## Citation
 
-If you use this package, please cite the working paper:
+If you use this package, please cite the paper. The journal’s suggested
+citation is:
 
-> Balla-Elliott, Dylan (2025). “Identifying Causal Effects in
-> Information Provision Experiments.”
-> [arXiv:2309.11387](https://doi.org/10.48550/arXiv.2309.11387)
+> Dylan Balla-Elliott; Identifying Causal Effects in Information
+> Provision Experiments. *The Review of Economics and Statistics* 2026;
+> doi: <https://doi.org/10.1162/REST.a.1745>
 
 ## License
 
