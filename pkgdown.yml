@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   articles/Intro-to-LLS: Intro-to-LLS.html
   lls-intro: lls-intro.html
-last_built: 2026-07-14T16:07Z
+last_built: 2026-07-16T14:42Z
 urls:
   reference: https://dballaelliott.github.io/lls/reference
   article: https://dballaelliott.github.io/lls/articles
